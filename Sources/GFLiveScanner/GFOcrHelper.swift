@@ -23,7 +23,7 @@ fileprivate struct GFOcrHelperRequest {
 /// Helper class to get text from an image using Vision framework
 @available(iOS 13.0, *)
 public class GFOcrHelper {
-    var useFastRecognition = false
+    public var useFastRecognition = false
     
     public init(fastRecognition:Bool) {
         self.useFastRecognition = fastRecognition
