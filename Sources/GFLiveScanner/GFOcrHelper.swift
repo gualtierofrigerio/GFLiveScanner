@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Vision
 
-typealias GFOcrHelperCallback = (Bool, [String]?) -> Void
+public typealias GFOcrHelperCallback = (Bool, [String]?) -> Void
 
 /// Helper struct for OCRHelper
 /// containing the CGImage to process and the callback to call
@@ -22,10 +22,10 @@ fileprivate struct GFOcrHelperRequest {
 
 /// Helper class to get text from an image using Vision framework
 @available(iOS 13.0, *)
-class GFOcrHelper {
+public class GFOcrHelper {
     var useFastRecognition = false
     
-    init(fastRecognition:Bool) {
+    public init(fastRecognition:Bool) {
         self.useFastRecognition = fastRecognition
     }
     /// Get an array of strings from a UIImage
@@ -33,7 +33,7 @@ class GFOcrHelper {
     ///   - image: The UIImage to scan for text
     ///   - callback: the callback with a bool parameter indicating success
     ///                 and an optional array of string recognized in the image
-    func getTextFromImage(_ image:UIImage,
+    public func getTextFromImage(_ image:UIImage,
                           callback:@escaping GFOcrHelperCallback) {
         guard let cgImage = image.cgImage else {
             callback(false, nil)
@@ -48,7 +48,7 @@ class GFOcrHelper {
     ///   - orientation: The adjusted orientation of the image
     ///   - callback: the callback with a bool parameter indicating success
     ///                 and an optional array of string recognized in the image
-    func getTextFromImage(_ image:CGImage,
+    public func getTextFromImage(_ image:CGImage,
                           orientation:CGImagePropertyOrientation?,
                           callback:@escaping GFOcrHelperCallback) {
         addRequest(withImage: image, orientation:orientation, callback: callback)

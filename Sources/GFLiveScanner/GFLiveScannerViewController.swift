@@ -18,7 +18,7 @@ public class GFLiveScannerViewController : UIViewController {
     var getImageCallback:((UIImage?) -> Void)?
     var torchStatus:GFTorchStatus = .off
     
-    init(withDelegate delegate:GFLiveScannerDelegate, options:GFLiveScannerOptions?) {
+    public init(withDelegate delegate:GFLiveScannerDelegate, options:GFLiveScannerOptions?) {
         self.delegate = delegate
         self.cameraView = UIView(frame: CGRect.zero)
         super.init(nibName: nil, bundle: nil)

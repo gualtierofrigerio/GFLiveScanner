@@ -9,6 +9,11 @@ import AVFoundation
 import CoreGraphics
 import UIKit
 
+/// Class with static function needed by the live scanner
+/// like getting the current screen orientation
+/// converting the SampleBuffer to a CGImage or UIImage
+/// and get the correct orientation for images or video
+/// coming from AVCaptureSession based on the device orientation
 class GFLiveScannerUtils {
     /// Get current device orientation
     /// - Returns: Current UIInterfaceOrientation

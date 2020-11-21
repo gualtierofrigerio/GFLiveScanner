@@ -56,7 +56,7 @@ public struct GFLiveScannerOptions {
     }
 }
 
-protocol GFLiveScannerDelegate {
+public protocol GFLiveScannerDelegate {
     func capturedStrings(strings:[String])
     func liveCaptureEnded(withError:Error?)
 }
