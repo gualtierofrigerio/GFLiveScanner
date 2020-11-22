@@ -12,7 +12,7 @@ protocol AVCaptureMetaAndVideoDelegate: AVCaptureVideoDataOutputSampleBufferDele
 
 @available(iOS 10.0, *)
 class GFLiveBarcodeViewController: UIViewController, GFLiveScanner {
-    required init(withDelegate delegate:GFLiveScannerDelegate, cameraView: UIView) {
+    required init(withDelegate delegate:GFLiveScannerDelegate?, cameraView: UIView) {
         self.cameraView = cameraView
         self.delegate = delegate
         self.queue = DispatchQueue(label: "GFBarcodeScannerQueue")
@@ -44,7 +44,7 @@ class GFLiveBarcodeViewController: UIViewController, GFLiveScanner {
     // MARK: - Private
     private var cameraView:UIView
     private var captureSession:AVCaptureSession?
-    private var delegate:GFLiveScannerDelegate
+    private var delegate:GFLiveScannerDelegate?
     private var drawRectangles = false
     private var previewLayer:AVCaptureVideoPreviewLayer?
     private var queue:DispatchQueue
@@ -154,6 +154,6 @@ class GFLiveBarcodeViewController: UIViewController, GFLiveScanner {
 extension GFLiveBarcodeViewController:AVCaptureMetaAndVideoDelegate {
     public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         let codes = getBarcodeStringFromCapturedObjects(metadataObjects: metadataObjects)
-        delegate.capturedStrings(strings: codes)
+        delegate?.capturedStrings(strings: codes)
     }
 }
