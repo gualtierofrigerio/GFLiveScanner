@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import Combine
 import UIKit
 
 /// GFBarcodeScannerViewcontroller
@@ -40,6 +41,14 @@ public class GFLiveScannerViewController : UIViewController {
         previewLayer?.connection?.videoOrientation = GFLiveScannerUtils.videoOrientationForCurrentOrientation()
     }
     
+    /// Returnsa a Combine publisher for the strings captured during a live scan
+    @available(iOS 13.0, *)
+    public func getCapturedStringsPublisher() -> AnyPublisher<[String], Never>? {
+        guard let ocrScanner = scanner as? GFLiveOcrViewController else {
+            return nil
+        }
+        return ocrScanner.getCapturedStringsPublisher()
+    }
     
     /// Starts a live scanner for the configured mode
     /// - Parameter mode: The scanning mode
