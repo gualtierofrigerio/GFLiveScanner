@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import Combine
 import UIKit
 
 /// ViewController responsible for capturing video via AVCaptureSession
@@ -22,6 +23,10 @@ class GFLiveOcrViewController: UIViewController, GFLiveScanner {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func getCapturedStringsPublisher() -> AnyPublisher<[String], Never> {
+        $capturedStrings.eraseToAnyPublisher()
     }
     
     // MARK: - GFLiveScanner
@@ -46,6 +51,7 @@ class GFLiveOcrViewController: UIViewController, GFLiveScanner {
     private var delegate:GFLiveScannerDelegate
     private var ocrHelper:GFOcrHelper
     private var previewLayer:AVCaptureVideoPreviewLayer?
+    @Published private var capturedStrings:[String] = []
     
     /// Perform the initial configuration instantiating the AVCaptureDevice
     /// and reating the AVCaptureSession
@@ -93,6 +99,7 @@ extension GFLiveOcrViewController: AVCaptureVideoDataOutputSampleBufferDelegate 
         ocrHelper.getTextFromImage(image, orientation:orientation) { success, strings in
             if let strings = strings {
                 self.delegate.capturedStrings(strings:strings)
+                self.capturedStrings = strings
             }
         }
     }
