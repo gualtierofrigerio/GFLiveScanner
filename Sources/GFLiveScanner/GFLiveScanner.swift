@@ -15,6 +15,9 @@ public enum GFTorchStatus {
     case unavailable
 }
 
+/// Enum describing the live scanning mode
+/// use barcode to scan for barcode
+/// and ocr to perform live ocr of the camera feed
 public enum GFLiveScannerMode {
     case barcode
     case ocr
@@ -56,19 +59,28 @@ public struct GFLiveScannerOptions {
     }
 }
 
+/// Describes the delegate of GFLiveScanner
 public protocol GFLiveScannerDelegate {
+    /// Called when an array of strings has been captured
+    /// May contain OCR text or a list of barcodes
+    /// - Parameter strings: The strings detected during live scan
     func capturedStrings(strings:[String])
+    /// Called when the live captured ended
+    /// May happen because an error occurred or because the
+    /// view controller has been closed via the optional close button
+    /// - Parameter withError: The optional error
     func liveCaptureEnded(withError:Error?)
 }
 
+/// This protocol describes the common functionnalities of
+/// barcode and ocr live scanner view controllers
 protocol GFLiveScanner:UIViewController {
     /// The init function specifies a delegate and the cameraView used
     /// for the preview.
     /// - Parameters:
     ///   - withDelegate: GFLivescannerDelegate that received the strings
     ///   - cameraView: The view showing the camera feed
-    init(withDelegate:GFLiveScannerDelegate, cameraView:UIView)
-
+    init(withDelegate:GFLiveScannerDelegate?, cameraView:UIView)
     /// Creates a preview layer to add to the camera view
     /// in order to show the user the camera feed
     /// Returns: - An optional AVCaptureVideoPreviewLayer
