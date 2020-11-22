@@ -13,7 +13,7 @@ import UIKit
 /// The view controller has a preview layer to show the camera output
 @available(iOS 13.0, *)
 class GFLiveOcrViewController: UIViewController, GFLiveScanner {
-    required init(withDelegate delegate:GFLiveScannerDelegate, cameraView:UIView) {
+    required init(withDelegate delegate:GFLiveScannerDelegate?, cameraView:UIView) {
         self.delegate = delegate
         self.cameraView = cameraView
         self.ocrHelper = GFOcrHelper(fastRecognition:true)
@@ -48,7 +48,7 @@ class GFLiveOcrViewController: UIViewController, GFLiveScanner {
     
     private var cameraView:UIView
     private var captureSession:AVCaptureSession?
-    private var delegate:GFLiveScannerDelegate
+    private var delegate:GFLiveScannerDelegate?
     private var ocrHelper:GFOcrHelper
     private var previewLayer:AVCaptureVideoPreviewLayer?
     @Published private var capturedStrings:[String] = []
@@ -98,7 +98,7 @@ extension GFLiveOcrViewController: AVCaptureVideoDataOutputSampleBufferDelegate 
         let orientation = GFLiveScannerUtils.imageOrientationForCurrentOrientation()
         ocrHelper.getTextFromImage(image, orientation:orientation) { success, strings in
             if let strings = strings {
-                self.delegate.capturedStrings(strings:strings)
+                self.delegate?.capturedStrings(strings:strings)
                 self.capturedStrings = strings
             }
         }
