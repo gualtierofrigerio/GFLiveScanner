@@ -15,6 +15,15 @@ import UIKit
 /// and get the correct orientation for images or video
 /// coming from AVCaptureSession based on the device orientation
 class GFLiveScannerUtils {
+    /// Creates an NSError with a string and a code
+    /// - Parameters:
+    ///   - withMessage: the String with the error message
+    ///   - code: the error code
+    /// - Returns: An NSError
+    class func createError(withMessage:String, code:Int) -> NSError {
+        let error = NSError(domain: "GFLiveScanner", code: code, userInfo: ["Message" : withMessage])
+        return error
+    }
     /// Get current device orientation
     /// - Returns: Current UIInterfaceOrientation
     class func getCurrentOrientation() -> UIInterfaceOrientation {
