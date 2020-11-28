@@ -60,6 +60,10 @@ class GFLiveOcrViewController: UIViewController, GFLiveScanner {
                                                    for: .video,
                                                    position: .back),
               let input = try? AVCaptureDeviceInput(device: device) else {
+            if let delegate = delegate {
+                let error = GFLiveScannerUtils.createError(withMessage: "Couldn't create AVCaptureDeviceInput",code: 0)
+                delegate.liveCaptureEnded(withError: error)
+            }
             return
         }
         let session = AVCaptureSession()
