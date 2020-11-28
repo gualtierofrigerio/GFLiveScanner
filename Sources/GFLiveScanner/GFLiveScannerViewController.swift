@@ -19,7 +19,7 @@ public class GFLiveScannerViewController : UIViewController {
     var getImageCallback:((UIImage?) -> Void)?
     var torchStatus:GFTorchStatus = .off
     
-    public init(withDelegate delegate:GFLiveScannerDelegate, options:GFLiveScannerOptions?) {
+    public init(withDelegate delegate:GFLiveScannerDelegate?, options:GFLiveScannerOptions?) {
         self.delegate = delegate
         self.cameraView = UIView(frame: CGRect.zero)
         super.init(nibName: nil, bundle: nil)
@@ -100,7 +100,7 @@ public class GFLiveScannerViewController : UIViewController {
     
     // MARK: - Private
     private var cameraView:UIView
-    private var delegate:GFLiveScannerDelegate
+    private var delegate:GFLiveScannerDelegate?
     private var mode:GFLiveScannerMode?
     private var options:GFLiveScannerOptions = GFLiveScannerOptions()
     private var previewLayer:AVCaptureVideoPreviewLayer?
@@ -145,8 +145,9 @@ public class GFLiveScannerViewController : UIViewController {
     
     @objc private func closeButtonTap(_ sender:Any) {
         self.scanner?.stopScanning()
-        delegate.liveCaptureEnded(withError: createError(withMessage: "User closed the capture view",
-                                                         code: 0))
+        let error = GFLiveScannerUtils.createError(withMessage: "User closed the capture view",
+                                                   code: 0)
+        delegate?.liveCaptureEnded(withError: error)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -175,16 +176,6 @@ public class GFLiveScannerViewController : UIViewController {
         
         cameraView.frame = getCameraViewFrame()
         self.view.addSubview(cameraView)
-    }
-    
-    /// Creates an NSError with a string and a code
-    /// - Parameters:
-    ///   - withMessage: the String with the error message
-    ///   - code: the error code
-    /// - Returns: An NSError
-    private func createError(withMessage:String, code:Int) -> NSError {
-        let error = NSError(domain: "GFLiveScanner", code: code, userInfo: ["Message" : withMessage])
-        return error
     }
     
     private func getCameraViewFrame() -> CGRect {
