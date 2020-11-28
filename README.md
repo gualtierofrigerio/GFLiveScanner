@@ -8,3 +8,5 @@ It is also possible to use the OCR on an existing image by calling GFOcrHelper i
 GFOcrHelper uses [Vision](https://developer.apple.com/documentation/vision) and can be configure for fast scanning (set by the view controller when using the live OCR). If you provide an image, I suggest setting fast scanning to false to improve accuracy.
 
 See [this project](https://github.com/gualtierofrigerio/OCRTest) for examples on how to use the live scanner for barcodes and OCR and to provide images to GFOcrHelper to perfor OCR.
+
+You can find my blog post about the live scanner and Vision at [this link](http://www.gfrigerio.com/text-recognition-with-vision/)
