@@ -57,6 +57,8 @@ class GFLiveBarcodeViewController: UIViewController, GFLiveScanner {
         if captureSession != nil {
             return
         }
+        /// These are the AVMetadataObject we are intested in
+        /// I put here the most common barcodes and the QR code as well
         let objectTypes:[AVMetadataObject.ObjectType] =
             [AVMetadataObject.ObjectType.aztec,
              AVMetadataObject.ObjectType.code39,
@@ -85,15 +87,18 @@ class GFLiveBarcodeViewController: UIViewController, GFLiveScanner {
             else { return }
         session.addInput(videoDeviceInput)
         
+        /// In addition to the AVCaptureVideoDataOutput we configure a
+        /// AVCaptureMetadataOutput so the delegate function metadataOutput
+        /// is called every time a barcode or QR code is detected
         let metadataOutput = AVCaptureMetadataOutput()
         session.addOutput(metadataOutput)
         metadataOutput.setMetadataObjectsDelegate(self, queue: queue)
+        metadataOutput.metadataObjectTypes = objectTypes
         
         let videoOutput = AVCaptureVideoDataOutput()
         videoOutput.setSampleBufferDelegate(self, queue: queue)
         
         session.addOutput(videoOutput)
-        metadataOutput.metadataObjectTypes = objectTypes
         captureSession = session
     }
     /// Configure the preview layer

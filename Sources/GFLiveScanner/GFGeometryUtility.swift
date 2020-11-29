@@ -14,7 +14,6 @@ import UIKit
 /// Is used by GFBarcodeScanner to draw a rectangle over an area where a
 /// barcode is detected
 class GFGeometryUtility {
-    
     /// Creates a CAShapeLayer with an array of rectangles
     /// - Parameters:
     ///   - rectangles: The array of rectangles to draw in the layer
@@ -76,6 +75,7 @@ class GFGeometryUtility {
     
     /// Update a UIBezierPath with a CGRect
     /// If no path is specified a new one is created
+    /// Called by getLayer to draw rectangles on a layer
     /// - Parameters:
     ///   - path: The optional path to update
     ///   - rect: The rectangle to draw
