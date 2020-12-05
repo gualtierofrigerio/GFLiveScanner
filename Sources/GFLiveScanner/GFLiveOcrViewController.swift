@@ -25,6 +25,9 @@ class GFLiveOcrViewController: UIViewController, GFLiveScanner {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /// Returns a Combine publisher to subscribe to in order to get
+    /// updates whenever a new array of String is recognized
+    /// - Returns: a Combine publisher
     func getCapturedStringsPublisher() -> AnyPublisher<[String], Never> {
         $capturedStrings.eraseToAnyPublisher()
     }

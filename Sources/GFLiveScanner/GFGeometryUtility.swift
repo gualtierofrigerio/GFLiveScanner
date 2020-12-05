@@ -31,6 +31,7 @@ class GFGeometryUtility {
             let transformedRect = transformRect(rect, forFrame: frameSize)
             path = updatePath(path, withRect: transformedRect)
         }
+        path.close()
         drawPath(path, onLayer: layer, strokeColor:strokeColor)
         
         return layer
@@ -43,8 +44,9 @@ class GFGeometryUtility {
     ///   - path: The UIBezierPath to draw
     ///   - layer: The layer where the path has to be drawn
     ///   - strokeColor: The stroke color of the path
-    static private func drawPath(_ path:UIBezierPath, onLayer layer:CAShapeLayer, strokeColor:CGColor) {
-        path.close()
+    static private func drawPath(_ path:UIBezierPath,
+                                 onLayer layer:CAShapeLayer,
+                                 strokeColor:CGColor) {
         layer.path = path.cgPath
         layer.strokeColor = strokeColor
         layer.fillColor = UIColor.clear.cgColor
@@ -57,7 +59,8 @@ class GFGeometryUtility {
     ///   - bounds: the rect bounds
     ///   - frame: the containing frame
     /// - Returns: the rect transformed
-    static private func transformRect(_ bounds:CGRect,  forFrame frame:CGRect) -> CGRect {
+    static private func transformRect(_ bounds:CGRect,
+                                      forFrame frame:CGRect) -> CGRect {
         var returnFrame = CGRect(x: 0, y: 0, width:0, height: 0)
         var size = frame.size
         let orientation = UIApplication.shared.statusBarOrientation
@@ -80,7 +83,8 @@ class GFGeometryUtility {
     ///   - path: The optional path to update
     ///   - rect: The rectangle to draw
     /// - Returns: The UIBezierPath with the rectangle
-    static private func updatePath(_ path:UIBezierPath?, withRect rect:CGRect) -> UIBezierPath {
+    static private func updatePath(_ path:UIBezierPath?,
+                                   withRect rect:CGRect) -> UIBezierPath {
         let updatedPath = path ?? UIBezierPath()
         updatedPath.move(to: rect.origin)
         updatedPath.addLine(to: CGPoint(x: rect.origin.x + rect.size.width, y: rect.origin.y))
@@ -88,5 +92,4 @@ class GFGeometryUtility {
         updatedPath.addLine(to: CGPoint(x: rect.origin.x, y: rect.origin.y + rect.size.height))
         return updatedPath
     }
-    
 }

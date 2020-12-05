@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import Vision
 
+/// Convenience typealias for the callback function passed to the OCR class
 public typealias GFOcrHelperCallback = (Result<[String], Error>) -> Void
 
 /// Helper struct for OCRHelper
@@ -21,6 +22,8 @@ fileprivate struct GFOcrHelperRequest {
 }
 
 /// Helper class to get text from an image using Vision framework
+/// It is possibile to configure the OCR to perform fast with less accuracy
+/// or slow but with better accuracy
 @available(iOS 13.0, *)
 public class GFOcrHelper {
     public var useFastRecognition = false

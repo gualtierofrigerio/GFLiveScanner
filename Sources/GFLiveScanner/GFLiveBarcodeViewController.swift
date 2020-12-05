@@ -8,8 +8,6 @@
 import AVFoundation
 import UIKit
 
-protocol AVCaptureMetaAndVideoDelegate: AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureMetadataOutputObjectsDelegate {}
-
 @available(iOS 10.0, *)
 class GFLiveBarcodeViewController: UIViewController, GFLiveScanner {
     required init(withDelegate delegate:GFLiveScannerDelegate?, cameraView: UIView) {
@@ -156,8 +154,10 @@ class GFLiveBarcodeViewController: UIViewController, GFLiveScanner {
 // MARK: - AVCaptureMeta delegate
 
 @available(iOS 10.0, *)
-extension GFLiveBarcodeViewController:AVCaptureMetaAndVideoDelegate {
-    public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+extension GFLiveBarcodeViewController:AVCaptureVideoDataOutputSampleBufferDelegate,AVCaptureMetadataOutputObjectsDelegate  {
+    public func metadataOutput(_ output: AVCaptureMetadataOutput,
+                               didOutput metadataObjects: [AVMetadataObject],
+                               from connection: AVCaptureConnection) {
         let codes = getBarcodeStringFromCapturedObjects(metadataObjects: metadataObjects)
         delegate?.capturedStrings(strings: codes)
     }
