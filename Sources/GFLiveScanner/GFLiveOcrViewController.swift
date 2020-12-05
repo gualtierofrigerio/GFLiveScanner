@@ -100,10 +100,13 @@ extension GFLiveOcrViewController: AVCaptureVideoDataOutputSampleBufferDelegate 
             return
         }
         let orientation = GFLiveScannerUtils.imageOrientationForCurrentOrientation()
-        ocrHelper.getTextFromImage(image, orientation:orientation) { success, strings in
-            if let strings = strings {
+        ocrHelper.getTextFromImage(image, orientation:orientation) { result in
+            switch result {
+            case .success(let strings):
                 self.delegate?.capturedStrings(strings:strings)
                 self.capturedStrings = strings
+            case .failure(let error):
+                print("error performing ocr \(error)")
             }
         }
     }

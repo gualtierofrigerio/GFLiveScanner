@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Vision
 
-public typealias GFOcrHelperCallback = (Bool, [String]?) -> Void
+public typealias GFOcrHelperCallback = (Result<[String], Error>) -> Void
 
 /// Helper struct for OCRHelper
 /// containing the CGImage to process and the callback to call
@@ -36,7 +36,7 @@ public class GFOcrHelper {
     public func getTextFromImage(_ image:UIImage,
                           callback:@escaping GFOcrHelperCallback) {
         guard let cgImage = image.cgImage else {
-            callback(false, nil)
+            callback(.failure(genericError))
             return
         }
         addRequest(withImage: cgImage, orientation:nil, callback: callback)
@@ -56,6 +56,9 @@ public class GFOcrHelper {
     
     // MARK: - Private
     
+    private var genericError:Error {
+        GFLiveScannerUtils.createError(withMessage: "cannot perform OCR on image", code: 0)
+    }
     private var pendingOCRRequests:[GFOcrHelperRequest] = []
     
     /// Add a request for OCR
@@ -119,10 +122,10 @@ public class GFOcrHelper {
         pendingOCRRequests.removeFirst()
         let callback = request.callback
         if let strings = strings {
-            callback(true, strings)
+            callback(.success(strings))
         }
         else {
-            callback(false, nil)
+            callback(.failure(genericError))
         }
     }
 }
