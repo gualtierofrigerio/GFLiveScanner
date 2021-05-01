@@ -9,6 +9,7 @@ import AVFoundation
 import UIKit
 
 /// Enum describing the status of the iPhone torch
+
 public enum GFTorchStatus {
     case on
     case off
@@ -18,6 +19,7 @@ public enum GFTorchStatus {
 /// Enum describing the live scanning mode
 /// use barcode to scan for barcode
 /// and ocr to perform live ocr of the camera feed
+
 public enum GFLiveScannerMode {
     case barcode
     case ocr
@@ -28,6 +30,7 @@ public enum GFLiveScannerMode {
 /// If fullscren is true there is a default Close button
 /// otherwise we assume the BarcodeViewController will be embedded
 /// into a containing VC providing the close button and the toolbar
+
 public struct GFLiveScannerOptions {
     var closeButtonText:String = "" // Text for the close button
     var closeButtonTextColor:UIColor = UIColor.black // Text color for close button
@@ -60,34 +63,50 @@ public struct GFLiveScannerOptions {
 }
 
 /// Describes the delegate of GFLiveScanner
+
 public protocol GFLiveScannerDelegate {
+    
     /// Called when an array of strings has been captured
     /// May contain OCR text or a list of barcodes
     /// - Parameter strings: The strings detected during live scan
+    
     func capturedStrings(strings:[String])
+    
     /// Called when the live captured ended
     /// May happen because an error occurred or because the
     /// view controller has been closed via the optional close button
     /// - Parameter withError: The optional error
+    
     func liveCaptureEnded(withError:Error?)
 }
 
 /// This protocol describes the common functionnalities of
 /// barcode and ocr live scanner view controllers
+
 protocol GFLiveScanner:UIViewController {
+    
     /// The init function specifies a delegate and the cameraView used
     /// for the preview.
     /// - Parameters:
     ///   - withDelegate: GFLivescannerDelegate that received the strings
     ///   - cameraView: The view showing the camera feed
-    init(withDelegate:GFLiveScannerDelegate?, cameraView:UIView)
+    ///   - options: GFLiveScannerOptions
+    
+    init(withDelegate:GFLiveScannerDelegate?,
+         cameraView:UIView,
+         options:GFLiveScannerOptions?)
     /// Creates a preview layer to add to the camera view
     /// in order to show the user the camera feed
     /// Returns: - An optional AVCaptureVideoPreviewLayer
+    
     func getPreviewLayer() -> AVCaptureVideoPreviewLayer?
+    
     /// Begins a scanning session
     /// And asks for the camera permission if it wasn't already granted
+    
     func startScanning()
+    
     /// Ends the scanning session
+    
     func stopScanning()
 }

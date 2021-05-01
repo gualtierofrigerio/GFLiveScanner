@@ -11,9 +11,12 @@ import UIKit
 
 /// ViewController responsible for capturing video via AVCaptureSession
 /// The view controller has a preview layer to show the camera output
+
 @available(iOS 13.0, *)
 class GFLiveOcrViewController: UIViewController, GFLiveScanner {
-    required init(withDelegate delegate:GFLiveScannerDelegate?, cameraView:UIView) {
+    required init(withDelegate delegate:GFLiveScannerDelegate?,
+                  cameraView:UIView,
+                  options:GFLiveScannerOptions? = nil) {
         self.delegate = delegate
         self.cameraView = cameraView
         self.ocrHelper = GFOcrHelper(fastRecognition:true)
@@ -28,6 +31,7 @@ class GFLiveOcrViewController: UIViewController, GFLiveScanner {
     /// Returns a Combine publisher to subscribe to in order to get
     /// updates whenever a new array of String is recognized
     /// - Returns: a Combine publisher
+    
     func getCapturedStringsPublisher() -> AnyPublisher<[String], Never> {
         $capturedStrings.eraseToAnyPublisher()
     }
@@ -58,6 +62,7 @@ class GFLiveOcrViewController: UIViewController, GFLiveScanner {
     
     /// Perform the initial configuration instantiating the AVCaptureDevice
     /// and reating the AVCaptureSession
+    
     private func configureCaptureSession() {
         guard let device = AVCaptureDevice.default(.builtInWideAngleCamera,
                                                    for: .video,
@@ -80,6 +85,7 @@ class GFLiveOcrViewController: UIViewController, GFLiveScanner {
     
     /// Configure the preview layer
     /// the layer is added to the cameraView
+    
     private func configurePreview() {
         guard let session = captureSession else {return}
         if self.previewLayer == nil {

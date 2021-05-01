@@ -10,10 +10,15 @@ import UIKit
 
 @available(iOS 10.0, *)
 class GFLiveBarcodeViewController: UIViewController, GFLiveScanner {
-    required init(withDelegate delegate:GFLiveScannerDelegate?, cameraView: UIView) {
+    required init(withDelegate delegate:GFLiveScannerDelegate?,
+                  cameraView: UIView,
+                  options:GFLiveScannerOptions? = nil) {
         self.cameraView = cameraView
         self.delegate = delegate
         self.queue = DispatchQueue(label: "GFBarcodeScannerQueue")
+        if let options = options {
+            drawRectangles = options.drawRectangles
+        }
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -51,6 +56,7 @@ class GFLiveBarcodeViewController: UIViewController, GFLiveScanner {
     /// Configures an AVCaptureSession
     /// setting its delegate and the objectTypes
     /// - Returns: an optional AVCaptureSession
+    
     private func configureCaptureSession() {
         if captureSession != nil {
             return
@@ -88,6 +94,7 @@ class GFLiveBarcodeViewController: UIViewController, GFLiveScanner {
         /// In addition to the AVCaptureVideoDataOutput we configure a
         /// AVCaptureMetadataOutput so the delegate function metadataOutput
         /// is called every time a barcode or QR code is detected
+        
         let metadataOutput = AVCaptureMetadataOutput()
         session.addOutput(metadataOutput)
         metadataOutput.setMetadataObjectsDelegate(self, queue: queue)
@@ -101,6 +108,7 @@ class GFLiveBarcodeViewController: UIViewController, GFLiveScanner {
     }
     /// Configure the preview layer
     /// the layer is added to the cameraView
+    
     private func configurePreview() {
         guard let session = captureSession else {return}
         if self.previewLayer == nil {
@@ -114,6 +122,7 @@ class GFLiveBarcodeViewController: UIViewController, GFLiveScanner {
     
     /// Draw rectangles on a layer to display the position of detected barcodes
     /// - Parameter rectangles: The rectangles to draw on the layer
+    
     private func drawRectangles(_ rectangles:[CGRect]) {
         guard let previewLayer = previewLayer else {return}
         if let layer = rectanglesLayer {
@@ -132,6 +141,7 @@ class GFLiveBarcodeViewController: UIViewController, GFLiveScanner {
     /// Returns an array of barcoded from an array of AVMetadataObject
     /// - Parameter metadataObjects: The array of AVMetadataObject containing the codes
     /// - Returns: A String array of barcodes
+    
     private func getBarcodeStringFromCapturedObjects(metadataObjects:[AVMetadataObject]) -> [String] {
         var rectangles = [CGRect]()
         var codes:[String] = []
